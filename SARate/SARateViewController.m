@@ -236,14 +236,14 @@
         [mailer setToRecipients:toRecipients];
         [mailer setSubject:_emailSubject];
         NSString *emailBody = _emailText;
-        [mailer setMessageBody:emailBody isHTML:YES];
+        [mailer setMessageBody:emailBody isHTML:NO];
         mailer.mailComposeDelegate = self;
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             mailer.modalPresentationStyle = UIModalPresentationPageSheet;
         }
         
-        [self presentModalViewController:mailer animated:YES];
+        [self presentViewController:mailer animated:YES completion:nil];
         
     } else {
         
