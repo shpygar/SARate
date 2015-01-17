@@ -37,7 +37,7 @@
 @property (nonatomic, strong) UIButton *star4;
 @property (nonatomic, strong) UIButton *star5;
 
-@property (nonatomic, assign) int mark;
+@property (nonatomic, assign) NSUInteger mark;
 
 @end
 
@@ -192,37 +192,19 @@
         return;
     }
     
-    if (_mark == 5){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_appstoreRaitingAlertTitle
-                                                        message:_appstoreRaitingAlertMessage
-                                                       delegate:self
-                                              cancelButtonTitle:_appstoreRaitingCancel
-                                              otherButtonTitles:_appstoreRaitingButton, nil];
-        [alert show];
-        return;
-        
-        
-    }
-    
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:_disadvantagesAlertTitle message:_disadvantagesAlertMessage delegate:nil cancelButtonTitle:_okText otherButtonTitles:nil];
-    [alertView show];
-    [self sendMail];
-    
-}
-
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    [iRate sharedInstance].ratedThisVersion = YES;
-    if (buttonIndex != alertView.cancelButtonIndex){
+    if (_mark >= 4){
+        [iRate sharedInstance].ratedThisVersion = YES;
+        _isShowed = NO;
+        [self.view removeFromSuperview];
+   
         [[iRate sharedInstance] openRatingsPageInAppStore];
     }
-    _isShowed = NO;
-    [self.view removeFromSuperview];
-    
-
+    else{
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:_disadvantagesAlertTitle message:_disadvantagesAlertMessage delegate:nil cancelButtonTitle:_okText otherButtonTitles:nil];
+        [alertView show];
+        [self sendMail];
+    }
 }
-
 
 #pragma mark - Mail
 
